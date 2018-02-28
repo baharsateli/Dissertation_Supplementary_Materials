@@ -1,0 +1,23 @@
+ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX gn: <http://www.geonames.org/ontology#>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+
+SELECT DISTINCT ?document ?content ?fname ?lname ?affiliation ?country WHERE {
+ ?document pubo:hasAnnotation _:title .
+ _:title rdf:type doco:Title.
+ _:title cnt:chars ?content .
+ ?document pubo:hasAnnotation _:author .
+ _:author rdf:type foaf:Person .
+ _:author foaf:givenName ?fname.
+ _:author foaf:familyName ?lname.
+  OPTIONAL {
+ ?document pubo:hasAnnotation _:affiliation .
+ _:affiliation rdf:type foaf:Organization .
+ _:affiliation cnt:chars ?affiliation .
+  }
+}
+ORDER BY ?document

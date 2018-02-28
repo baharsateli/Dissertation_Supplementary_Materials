@@ -1,0 +1,27 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+
+SELECT DISTINCT ?document ?content ?type WHERE {
+ {
+    ?document pubo:hasAnnotation _:contrib .
+    _:contrib rdf:type sro:Contribution.
+    _:contrib rdf:type ?type.
+    _:contrib cnt:chars ?content .
+    _:contrib oa:start ?start .
+    FILTER (?type != sro:RhetoricalElement)
+  }
+  UNION {
+    ?document pubo:hasAnnotation _:claim .
+    _:claim rdf:type sro:Claim .
+    _:claim rdf:type ?type.
+    _:claim cnt:chars ?content .
+    _:claim oa:start ?start
+    FILTER (?type != sro:RhetoricalElement)
+  }
+}
+ORDER BY ?document ?start

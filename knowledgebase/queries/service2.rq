@@ -1,0 +1,30 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?document ?content ?subject {
+  {
+  	SELECT DISTINCT ?document ?content WHERE {
+ 		?document   pubo:hasAnnotation   _:contrib1 .
+ 		_:contrib1   rdf:type   sro:Contribution .
+ 		_:contrib1   pubo:containsNE _:topic1.
+ 		_:topic1 rdfs:isDefinedBy dbpedia:Linked_data .
+ 		_:contrib1   cnt:chars   ?content } 
+  	}
+  UNION
+  {
+    SELECT ?document ?content ?subject WHERE {
+ 		SERVICE <http://dbpedia.org/sparql> {
+     		dbpedia:Linked_data <http://purl.org/dc/terms/subject> ?category .
+     		?subject <http://purl.org/dc/terms/subject> ?category . 
+      	}
+ 	?document pubo:hasAnnotation _:contrib2 .
+ 	_:contrib2 rdf:type sro:Contribution .
+ 	_:contrib2 pubo:containsNE _:topic2.
+ 	_:topic2 rdfs:isDefinedBy ?subject .
+ 	_:contrib2 cnt:chars ?content } }
+}
+ORDER BY ?document

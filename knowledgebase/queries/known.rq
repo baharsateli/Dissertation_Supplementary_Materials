@@ -1,0 +1,13 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX um: <http://intelleo.eu/ontologies/user-model/ns/>
+PREFIX c: <http://www.intelleo.eu/ontologies/competences/ns/>
+
+SELECT DISTINCT ?uri WHERE {
+ ?user rdfs:isDefinedBy <http://semanticsoftware.info/lodexporter/creator/R1> .
+ ?user um:hasCompetencyRecord ?rec.
+ ?rec c:competenceFor ?comp .
+ ?comp rdfs:isDefinedBy ?uri
+} 
+ 

@@ -1,0 +1,77 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX doc: <http://www.w3.org/2000/10/swap/pim/doc#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+
+SELECT DISTINCT ?uri (COUNT(?uri) as ?count) WHERE {
+ ?s rdf:type foaf:Person.
+  ?s rdfs:isDefinedBy ?uri
+} GROUP BY ?uri
+
+----------------------------------------------
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX doc: <http://www.w3.org/2000/10/swap/pim/doc#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX rel: <http://purl.org/vocab/relationship/>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+PREFIX gn: <http://www.geonames.org/ontology#>
+
+SELECT ?author  ?name ?uri ?country WHERE {
+?author rdfs:isDefinedBy <http://semanticsoftware.info/lodexporter/jian-su>.
+?author rel:employedBy ?uni.
+  ?uni cnt:chars ?name.
+  OPTIONAL{
+  ?uni gn:locatedIn ?country.
+  }
+} 
+
+----------------------------------------------
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX doc: <http://www.w3.org/2000/10/swap/pim/doc#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX rel: <http://purl.org/vocab/relationship/>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+PREFIX gn: <http://www.geonames.org/ontology#>
+
+SELECT DISTINCT ?country (COUNT(?country) as ?count) WHERE {
+  ?author rdf:type foaf:Person .
+  ?author rel:employedBy ?uni.
+  ?uni cnt:chars ?name.
+  OPTIONAL{
+  ?uni gn:locatedIn ?country.
+  }
+} GROUP BY ?country
+
+----------------------------------------------
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX doc: <http://www.w3.org/2000/10/swap/pim/doc#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX rel: <http://purl.org/vocab/relationship/>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+PREFIX gn: <http://www.geonames.org/ontology#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+
+SELECT DISTINCT ?uri (COUNT(?uri) as ?count) WHERE {
+  ?s rdf:type pubo:LinkedNamedEntity .
+  ?s rdfs:isDefinedBy ?uri.
+  ?s cnt:chars ?name.
+} GROUP BY ?uri
+

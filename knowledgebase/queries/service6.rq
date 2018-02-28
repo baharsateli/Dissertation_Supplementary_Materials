@@ -1,0 +1,31 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX um: <http://intelleo.eu/ontologies/user-model/ns/>
+PREFIX c: <http://www.intelleo.eu/ontologies/competences/ns/>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+
+SELECT DISTINCT ?content1 ?uri1 ?uri2 WHERE {
+  ?document pubo:hasAnnotation _:re1 .
+  _:re1 rdf:type sro:RhetoricalElement .
+  _:re1 cnt:chars ?content1 .
+  _:re1 pubo:containsNE ?topic1 .
+  ?topic1 rdfs:isDefinedBy ?uri1 .
+  _:re1 pubo:containsNE ?topic2 .
+  ?topic2 rdfs:isDefinedBy ?uri2 .
+  FILTER(?topic1 != ?topic2)
+  
+  FILTER EXISTS {
+ 	?user rdfs:isDefinedBy <http://semanticsoftware.info/lodexporter/creator/R1> .
+ 	?user um:hasCompetencyRecord _:rec1.
+ 	_:rec1 c:competenceFor _:comp1 .
+ 	_:comp1 rdfs:isDefinedBy ?uri1 .
+
+	?user um:hasCompetencyRecord _:rec2.
+ 	_:rec2 c:competenceFor _:comp2 .
+ 	_:comp2 rdfs:isDefinedBy ?uri2 .
+    FILTER(?uri1 != ?uri2)  
+  }
+} LIMIT 10

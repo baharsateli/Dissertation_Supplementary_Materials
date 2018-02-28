@@ -1,0 +1,27 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pubo: <http://lod.semanticsoftware.info/pubo/pubo#>
+PREFIX um: <http://intelleo.eu/ontologies/user-model/ns/>
+PREFIX c: <http://www.intelleo.eu/ontologies/competences/ns/>
+PREFIX sro: <http://salt.semanticauthoring.org/ontologies/sro#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT ?uri WHERE {
+  ?document pubo:hasAnnotation _:re .
+  _:re rdf:type sro:RhetoricalElement .
+  _:re pubo:containsNE _:topic .
+  _:topic rdfs:isDefinedBy ?uri .
+  FILTER NOT EXISTS {
+ 	?user rdfs:isDefinedBy <http://semanticsoftware.info/lodexporter/creator/R1> .
+ 	?user um:hasCompetencyRecord _:rec.
+ 	_:rec c:competenceFor _:comp .
+ 	_:comp rdfs:isDefinedBy ?uri  
+  }
+  
+  SERVICE <http://dbpedia.org/sparql> {
+  	?uri rdfs:comment ?comment.
+    OPTIONAL {
+    	?uri foaf:isPrimaryTopicOf ?wiki
+    }
+  } FILTER(langMatches(lang(?comment),"en"))
+} LIMIT 100
