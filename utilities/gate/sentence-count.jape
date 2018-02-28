@@ -1,0 +1,16 @@
+Phase: Stats
+Input: Token
+
+Options: control = once
+
+Rule: stats
+(
+	{Token}
+)
+:mention
+-->
+{
+ AnnotationSet set = doc.getAnnotations().get("Sentence");
+ System.out.println(doc.getName() + "\t" + set.size());
+}
+
