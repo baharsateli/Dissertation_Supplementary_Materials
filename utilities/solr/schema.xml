@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ * Apache Solr core configuration file.
+ *
+ * Copyright (c) 2018, Bahar Sateli
+ *
+ * This file is part of a free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ *
+ * This file is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<schema name="Semantic_Vectors" versio="1.6">
+    <fields>
+        <field name="id" type="string" multiValued="false" stored="true" indexed="true" required="true" />
+        <field name="title" type="text" multiValued="false" stored="true" indexed="true" termVectors="true" />
+        <field name="abstract" type="text" multiValued="false" stored="true" indexed="true" termVectors="true" />
+        <field name="doi" type="string" multiValued="false" stored="true" indexed="true" />
+        <field name="body" type="text" multiValued="false" stored="false" indexed="true" termVectors="true" />
+        <field name="claim" type="text" multiValued="true" stored="true" indexed="true" termVectors="true" termPositions="true" termOffsets="true" />
+        <field name="contribution" type="text" multiValued="true" stored="true" indexed="true" termVectors="true" termPositions="true" termOffsets="true" />
+        <field name="entity" type="lod" multiValued="true" stored="true" indexed="true" termVectors="true" />
+        <field name="topic" type="text" multiValued="true" stored="true" indexed="true" termVectors="true" />
+        <field name="fulltext" type="text_general" multiValued="false" stored="true" indexed="true" termVectors="true" />
+        <field name="_version_" type="long" indexed="true" stored="true" multiValued="false" />
+		<field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>
+        <dynamicField name="*_txt" type="text_general" indexed="true"  stored="true" multiValued="true" termVectors="true"/>
+        <field name="contribution_uri" type="lod" multiValued="true" stored="true" indexed="true" termVectors="true" />
+        <field name="claim_uri" type="lod" multiValued="true" stored="true" indexed="true" termVectors="true" />
+    </fields>
+    
+    <uniqueKey>id</uniqueKey>
+    
+    <types>
+        <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.SnowballPorterFilterFactory" />
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+                <filter class="solr.SynonymFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.SnowballPorterFilterFactory" />
+            </analyzer>
+        </fieldType>
+        <fieldType name="strings" class="solr.StrField" sortMissingLast="true" docValues="true" multiValued="true"/>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+        <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+        <fieldType name="tdates" class="solr.TrieDateField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="6"/>
+        <fieldType name="tlongs" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
+        <fieldType name="tdoubles" class="solr.TrieDoubleField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
+        <fieldType name="text" class="solr.TextField" positionIncrementGap="100" >
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <!--tokenizer class="solr.WhitespaceTokenizerFactory" /-->
+                <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+                <filter class="solr.LowerCaseFilterFactory" />
+                <filter class="solr.SnowballPorterFilterFactory" />
+                <!--filter class="info.semanticsoftware.solr.lemmatizer.EnglishLemmatizerFilterFactory" /-->
+            </analyzer>
+            <analyzer type="query">
+                <!--tokenizer class="solr.WhitespaceTokenizerFactory" /-->
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+                <filter class="solr.LowerCaseFilterFactory" />
+                <filter class="solr.SnowballPorterFilterFactory" />
+                <!--filter class="info.semanticsoftware.solr.lemmatizer.EnglishLemmatizerFilterFactory" /-->
+            </analyzer>
+        </fieldType>
+        <fieldType name="lod" class="solr.TextField">
+            <analyzer type="index">
+                <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="http\:\/\/(\w+).(\w+)\/(\w+)\/" replacement=""/>
+                <!--charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\_|\(|\)" replacement=" " /-->
+                <tokenizer class="solr.WhitespaceTokenizerFactory" />
+                <filter class="solr.StopFilterFactory" ignoreCase="true" />
+                <filter class="solr.LowerCaseFilterFactory" />
+                <!--filter class="solr.SnowballPorterFilterFactory" /-->
+                <!--filter class="info.semanticsoftware.solr.lemmatizer.EnglishLemmatizerFilterFactory" /-->
+            </analyzer>
+            <analyzer type="query">
+                <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="http\:\/\/(\w+).(\w+)\/(\w+)\/" replacement=""/>
+                <!--charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\_|\(|\)" replacement=" " /-->
+                <tokenizer class="solr.WhitespaceTokenizerFactory" />
+                <filter class="solr.StopFilterFactory" ignoreCase="true" />
+                <filter class="solr.LowerCaseFilterFactory" />
+                <!--filter class="solr.SnowballPorterFilterFactory" /-->
+                <!--filter class="info.semanticsoftware.solr.lemmatizer.EnglishLemmatizerFilterFactory" /-->
+            </analyzer>
+        </fieldType>
+        <fieldType name="long" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" precisionStep="0"/>
+    </types>
+</schema>
