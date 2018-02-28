@@ -8,6 +8,7 @@ The unprecedented rate of scientific publications is a major threat to the produ
 * [knowledgebase](../master/knowledgebase) contains the populated knowledge bases that resulted from the experiments in the dissertation
 * [pipelines](../master/pipelines) contains the GATE text mining pipelines
 * [recommendation](../master/recommendation) contains the supplementary materials related to evaluation of our semantic vector-based recommendation of scientific articles
+* [utilities](../master/utilities) contains tools and scripts frequently used in my research
 
 ## License
 All the files included in this repository are licensed under [GNU Lesser General Public License version 3 (LGPL v3)](https://opensource.org/licenses/lgpl-3.0.html).
