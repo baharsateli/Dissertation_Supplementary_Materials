@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:ssl="http://www.semanticsoftware.info/ontology/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:gn="http://www.geonames.org/ontology#"
+  xmlns:rel="http://purl.org/vocab/relationship/"
+  xmlns:doco="http://purl.org/spar/doco/"
+  xmlns:cnt="http://www.w3.org/2011/content#"
+  xmlns:sro="http://salt.semanticauthoring.org/ontologies/sro#"
+  xmlns:pubo="http://lod.semanticsoftware.info/pubo/pubo#"
+  xmlns:oa="http://www.w3.org/ns/oa#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:map="http://lod.semanticsoftware.info/mapping/mapping#">
+
+  <!-- RELATIONS -->
+  
+  <rdf:Description rdf:about="RhetoricalEntityLinkedNamedEntityRelationMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="pubo:containsNE"/>
+    <map:domain rdf:resource="GATERhetoricalEntity"/>   
+    <map:range rdf:resource="GATEDBpediaNE"/>
+    <map:GATEattribute>contains</map:GATEattribute>   
+  </rdf:Description>
+  
+  <rdf:Description rdf:about="AuthorAffiliationRelationMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="rel:employedBy"/>
+    <map:domain rdf:resource="GATEAuthor"/>
+    <map:range rdf:resource="GATEAffiliation"/>
+    <map:GATEattribute>employedBy</map:GATEattribute>
+  </rdf:Description>
+
+  <!-- ATTRIBUTES-->
+  
+  <rdf:Description rdf:about="GATEContentMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="cnt:chars"/>
+    <map:GATEattribute>content</map:GATEattribute>   
+  </rdf:Description>
+  
+  <rdf:Description rdf:about="GATEStartOffsetMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="oa:start"/>
+    <map:GATEattribute>startOffset</map:GATEattribute>   
+  </rdf:Description>
+
+  <rdf:Description rdf:about="GATEEndOffsetMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="oa:end"/>
+    <map:GATEattribute>endOffset</map:GATEattribute>   
+  </rdf:Description>
+  
+  <!-- ANNOTATION FEATURES -->
+  
+  <rdf:Description rdf:about="GATELODRefFeatureMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="rdfs:isDefinedBy"/>
+    <map:GATEfeature>URI</map:GATEfeature>   
+  </rdf:Description>
+
+  <rdf:Description rdf:about="GATEURIFeatureMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="rdf:type"/>
+    <map:GATEfeature>URI1</map:GATEfeature>   
+  </rdf:Description>
+  
+  <rdf:Description rdf:about="GATELocatedInFeatureMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="gn:locatedIn"/>
+    <map:GATEfeature>locatedIn</map:GATEfeature>
+  </rdf:Description>
+  
+  <rdf:Description rdf:about="GATELocationURIFeatureMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="rdfs:isDefinedBy"/>
+    <map:GATEfeature>locationURI</map:GATEfeature>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="GATEFirstnameFeatureMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="foaf:givenName"/>
+    <map:GATEfeature>firstname</map:GATEfeature>   
+  </rdf:Description>
+
+  <rdf:Description rdf:about="GATELastnameFeatureMapping">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:type rdf:resource="foaf:familyName"/>
+    <map:GATEfeature>lastname</map:GATEfeature>   
+  </rdf:Description>
+  
+  <!-- ANNOTATIONS -->
+
+  <rdf:Description rdf:about="GATERhetoricalEntity">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:hasMapping rdf:resource="GATEContentMapping"/>
+    <map:hasMapping rdf:resource="GATEStartOffsetMapping"/>
+    <map:hasMapping rdf:resource="GATEEndOffsetMapping"/>
+    <map:hasMapping rdf:resource="GATEURIFeatureMapping"/>
+    <map:baseURI rdf:resource="http://semanticsoftware.info/lodexporter/"/>
+    <map:type rdf:resource="sro:RhetoricalElement"/>
+    <map:GATEtype>RhetoricalEntity</map:GATEtype>   
+  </rdf:Description>
+
+  <rdf:Description rdf:about="GATEDBpediaNE">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:hasMapping rdf:resource="GATEContentMapping"/>
+    <map:hasMapping rdf:resource="GATEStartOffsetMapping"/>
+    <map:hasMapping rdf:resource="GATEEndOffsetMapping"/>
+    <map:hasMapping rdf:resource="GATELODRefFeatureMapping"/>
+    <map:baseURI rdf:resource="http://semanticsoftware.info/lodexporter/"/>
+    <map:type rdf:resource="pubo:LinkedNamedEntity"/>
+    <map:GATEtype>DBpediaNE</map:GATEtype>   
+  </rdf:Description>
+
+  <rdf:Description rdf:about="GATETitle">
+    <rdf:type rdf:resource="map:Mapping"/>
+    <map:hasMapping rdf:resource="GATEContentMapping"/>
+    <map:baseURI rdf:resource="http://semanticsoftware.info/lodexporter/"/>
+    <map:type rdf:resource="doco:Title"/>
+    <map:GATEtype>Title</map:GATEtype>   
+  </rdf:Description>
+  
+  <rdf:Description rdf:about="GATEAuthor">
+      <rdf:type rdf:resource="map:Mapping"/>
+      <map:hasMapping rdf:resource="GATEContentMapping"/>
+      <map:hasMapping rdf:resource="GATEStartOffsetMapping"/>
+      <map:hasMapping rdf:resource="GATEEndOffsetMapping"/>
+      <map:hasMapping rdf:resource="GATELODRefFeatureMapping"/>
+      <map:hasMapping rdf:resource="GATEFirstnameFeatureMapping"/>
+      <map:hasMapping rdf:resource="GATELastnameFeatureMapping"/>
+      <!--map:hasMapping rdf:resource="AuthorAffiliationRelationMapping"/-->
+      <map:baseURI rdf:resource="http://semanticsoftware.info/lodexporter/"/>
+      <map:type rdf:resource="foaf:Person"/>
+      <map:GATEtype>Author</map:GATEtype>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="GATEAffiliation">
+      <rdf:type rdf:resource="map:Mapping"/>
+      <map:hasMapping rdf:resource="GATELocatedInFeatureMapping"/>
+      <map:hasMapping rdf:resource="GATELocationURIFeatureMapping"/>
+      <map:hasMapping rdf:resource="GATEContentMapping"/>
+      <map:hasMapping rdf:resource="GATEStartOffsetMapping"/>
+      <map:hasMapping rdf:resource="GATEEndOffsetMapping"/>
+      <map:baseURI rdf:resource="http://semanticsoftware.info/lodexporter/"/>
+      <map:type rdf:resource="foaf:Organization"/>
+      <map:GATEtype>Affiliation_univ</map:GATEtype>
+  </rdf:Description>
+  
+</rdf:RDF>
