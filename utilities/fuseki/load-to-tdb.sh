@@ -1,5 +1,5 @@
 #! /bin/bash
-tdbloader=/PATH/TP/APACHE_JENA/bin/tdbloader
+tdbloader=/PATH/TO/APACHE_JENA/bin/tdbloader
 directory=/PATH/TO/SOURCE/DIRECTORY/
 
 cd "$directory";
